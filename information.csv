@@ -1,4 +1,2 @@
-name,age
-joshua,10
-haf,200
-woow,101
+Name,DOB,Age,Gender,Email,Cell Phone,Address,Current Medical Conditions,Blood Type,Height,Weight,Emergency Contact Phone and Email,Health Insurance,Work Phone
+Richard Long,2/29/2000,5,M,longmingdong@gmail.com,204-292-0388,123 Lazy Lane,Sitting Duck Syndrome,A+,204,350,629-634-8456,wthman@gmail.com,Blue Cross Blue Shield,204-736-7384
