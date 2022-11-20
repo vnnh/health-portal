@@ -18,7 +18,10 @@ def get_binary(image):
 
 
 def detect(cropped_frame, is_number=False, all_characters=False):
-    if (is_number):
+    if all_characters:
+        text = pytesseract.image_to_string(cropped_frame,
+                                           config='--psm 10')
+    elif is_number:
         text = pytesseract.image_to_string(cropped_frame,
                                            config='-c tessedit_char_whitelist=0123456789 --psm 10')
     else:
@@ -35,9 +38,3 @@ def draw_text(image, x, y, w, h, text):
                 2, (0, 0, 0), 5, cv2.LINE_AA)
 
     return cFrame
-
-
-def erode(img, kernel_size=5):
-    kernel = np.ones((kernel_size, kernel_size), np.uint8)
-    img_erosion = cv2.dilate(img, kernel, iterations=2)
-    return img_erosion
