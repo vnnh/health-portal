@@ -1,5 +1,5 @@
 import cv2
-import image_transform
+import util.image_transform as image_transform
 import numpy as np
 
 
@@ -27,11 +27,16 @@ def overlapping_filter(lines, sorting_index):
     return filtered_lines
 
 
-def get_crop(image, horizontal, vertical, left_line_index, right_line_index, top_line_index, bottom_line_index, offset=4):
+def get_crop(image, horizontal, vertical, left_line_index, right_line_index, top_line_index, bottom_line_index, offset=4, crop=0):
     x1 = vertical[left_line_index][2] - offset
     y1 = horizontal[top_line_index][3] + offset
     x2 = vertical[right_line_index][2] - offset
     y2 = horizontal[bottom_line_index][3] - offset
+
+    if crop < 0:
+        x2 = x2 + crop
+    else:
+        x1 = x1 + crop
 
     cropped_image = image[y1:y2, x1:x2]
 
@@ -95,60 +100,35 @@ def interpret_covid_table(image_path, display=False, print_text=False, write=Fal
 
     horizontal, vertical = detect_lines(src, display=True)
 
-    left_line_index = 0
-    right_line_index = 3
-    top_line_index = 6
-    bottom_line_index = 13
-
-    cropped_image, (x, y, w, h) = get_crop(src, horizontal, vertical, left_line_index,
-                                           right_line_index, top_line_index, bottom_line_index)
-
     gray = image_transform.get_grayscale(src)
     bw = image_transform.get_binary(gray)
 
-    # if display is True:
-    #    cv2.imshow("bw", bw)
-    #    cv2.waitKey(0)
-    #    cv2.destroyAllWindows()
+    info = {}
 
-    keywords = ["vaccine", "product name/manufacturer", "date", "clinic site"]
-    keyword_dict = {}
-    for keyword in keywords:
-        keyword_dict[keyword] = []
+    def extract_crop(label, is_number, all_characters, left_line_index, right_line_index, top_line_index, bottom_line_index, crop=0):
+        cropped_image, (x, y, w, h) = get_crop(bw, horizontal, vertical,
+                                               left_line_index, right_line_index, top_line_index, bottom_line_index, 4, crop)
 
-    counter = 0
+        text = image_transform.detect(
+            cropped_image, is_number, all_characters)
 
-    first_line_index = 8
-    last_line_index = 9
+        if (display):
+            image_with_text = image_transform.draw_text(
+                src, x, y, w, h, text)
+            cv2.imshow("detect", image_with_text)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
 
-    for i in range(first_line_index, last_line_index):
-        for j, keyword in enumerate(keywords):
-            counter += 1
+        info[label] = text
 
-            left_line_index = j
-            right_line_index = j+1
-            top_line_index = i
-            bottom_line_index = i+1
+    extract_crop("last_name", False, False, 0, 2, 2, 3)
+    extract_crop("first_name", False, False, 2, 4, 2, 3, -100)
+    extract_crop("middle_initial", False, False, 2, 4, 2, 3, 380)
+    extract_crop("dob", True, False, 0, 2, 3, 4)
 
-            cropped_image, (x, y, w, h) = get_crop(bw, horizontal, vertical, left_line_index,
-                                                   right_line_index, top_line_index, bottom_line_index)
+    extract_crop("product_name", False, False, 1, 2, 8, 9)
 
-            text = image_transform.detect(
-                cropped_image, is_number=j == 2 and True or False)
-            keyword_dict[keyword].append(text)
-
-            if (print_text):
-                print("Is number" + ", Row: ", str(i),
-                      ", Keyword: " + keyword + ", Text: ", text)
-
-            if (display or write):
-                image_with_text = image_transform.draw_text(
-                    src, x, y, w, h, text)
-
-            if (display):
-                cv2.imshow("detect", image_with_text)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
+    return info
 
 
 def interpret_patient_table(image_path, display=False):
@@ -158,11 +138,6 @@ def interpret_patient_table(image_path, display=False):
 
     gray = image_transform.get_grayscale(src)
     bw = image_transform.get_binary(gray)
-
-    # if display is True:
-    #    cv2.imshow("bw", bw)
-    #    cv2.waitKey(0)
-    #    cv2.destroyAllWindows()
 
     def extract_crop(label, is_number, all_characters, left_line_index, right_line_index, top_line_index, bottom_line_index):
         cropped_image, (x, y, w, h) = get_crop(bw, horizontal, vertical,
@@ -203,6 +178,6 @@ def interpret_patient_table(image_path, display=False):
 
 
 if __name__ == "__main__":
-    #interpret_covid_table("./temp/covid_card_fill.png", display=True)
-    interpret_patient_table(
-        "./temp/fill patient.png", display=True)
+    interpret_covid_table("./temp/covid_card_fill.png", display=True)
+    # interpret_patient_table(
+    #    "./temp/fill patient.png", display=True)
