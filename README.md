@@ -6,7 +6,7 @@ Family signs up with contact info and who they want to receive information about
 
 # Development
 
-- `streamlit run ###`
+- `streamlit run main.py`
 
 ## About this program
 Our program uses Optical Character Recognition (OCR)
