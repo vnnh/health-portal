@@ -77,11 +77,15 @@ def app():
 
         st.markdown("""---""")
 
+        
+        st.markdown("### Patient Actions")
+
         if st.button("Call Emergency Contact"):
             call(selection['selected_rows'][0]['Emergency Contact Phone'])
             st.markdown(
                 f"> Call sent to {selection['selected_rows'][0]['Emergency Contact Phone']}")
 
+        st.markdown("##")
         patient_message = st.text_input("Patient notes")
         if st.button("Email Patient"):
             email(selection['selected_rows'][0]['Email'], patient_message)
@@ -90,7 +94,7 @@ def app():
 
     st.markdown("""---""")
 
-    st.markdown("# Medical Recommendation")
+    st.markdown("# Global Actions")
     if st.button("Email Patients Without the COVID-19 Vaccine"):
         emails = patient_data["Email"]
         vaccines = patient_data["Vaccines"]
