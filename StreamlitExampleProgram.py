@@ -4,7 +4,7 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 from st_aggrid.shared import GridUpdateMode
 
 iris = pd.read_csv(
-    "https://raw.githubusercontent.com/vnnh/health-portal/main/information.csv"
+    "./information.csv"
 )
 
 def aggrid_interactive_table(df: pd.DataFrame):
@@ -28,7 +28,7 @@ def aggrid_interactive_table(df: pd.DataFrame):
 
 if __name__ == "__main__":
     iris = pd.read_csv(
-        "https://raw.githubusercontent.com/vnnh/health-portal/main/information.csv"
+        "./information.csv"
     )
     selection = aggrid_interactive_table(df=iris)
 
@@ -36,7 +36,6 @@ if __name__ == "__main__":
         st.write("Patient Info:")
         st.json(selection["selected_rows"])
 
-    messageTextbox = st.text_input("Message:")
-    if st.button("Email patient"):
-        st.write(f"Email sent to {selection['selected_rows']['email']}")
+    if st.button("Call Emergency Contact"):
+        st.write(f"Call sent to {selection['selected_rows'][0]['Emergency Contact Phone']}")
         
