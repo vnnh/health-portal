@@ -13,6 +13,7 @@ def check_password():
         ):
             st.session_state["password_correct"] = True
             st.session_state["type"] = st.secrets["users"][st.session_state["username"]]["type"]
+            st.session_state["name"] = st.secrets["users"][st.session_state["username"]]["name"]
             del st.session_state["password"]
             del st.session_state["username"]
         else:
