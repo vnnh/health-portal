@@ -4,4 +4,9 @@ When doctors have to enter patient notes into electronic health records repeated
 # Solution
 family signs up with contact info and who they want to receive information about when doctor scans/look up patient info they get a prompt to notify family
 
+# Development
+
+- `streamlit run ###`
+
 ## About this program
+

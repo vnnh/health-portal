@@ -1,19 +1,15 @@
-import pytesseract
-import cv2
 import os
+import streamlit as st
+import numpy as np
 
-pytesseract.pytesseract.tesseract_cmd = os.path.expanduser(
-    r"~\AppData\Local\Tesseract-OCR\tesseract.exe")
-
-
-def preprocess_image(image_path):
-    grey_scale = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2GRAY)
-    # resized_image = cv2.resize(
-    #    grey_scale, None, fx=1.25, fy=1.25, interpolation=cv2.INTER_LINEAR)
-    # return cv2.adaptiveThreshold(resized_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 63, 13)
-    return grey_scale
-
-
-def parse(image_path):
-    processed_image = preprocess_image(image_path)
-    return pytesseract.image_to_string(processed_image, lang="eng").strip()
+if __name__ == "__main__":
+    print("ww")
+    #file = st.file_uploader("Choose a file",type=["png"])
+    # if file is not None:
+    #    temp_path = "./temp/" + str(uuid.uuid4()) + ".png"
+    #    with open(temp_path,"wb") as f:
+    #        f.write(file.read())
+    #    document_text = parse(temp_path)
+    #    print(document_text)
+    #    if os.path.exists(temp_path):
+    #        os.remove(temp_path)
