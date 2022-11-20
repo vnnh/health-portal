@@ -1,6 +1,7 @@
 import streamlit as st
 import doctor
 import patient
+from PIL import Image
 
 
 def check_password():
@@ -18,12 +19,24 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
+        _col1, col2, _col3 = st.columns([1, 1, 0.3])
+        col2.image(Image.open("./temp/logo.png"), width=80)
+
+        st.markdown("#")
+        st.markdown("#")
+
         st.text_input("Username", on_change=password_entered, key="username")
         st.text_input(
             "Password", type="password", on_change=password_entered, key="password"
         )
         return False
     elif not st.session_state["password_correct"]:
+        _col1, col2, _col3 = st.columns([1, 1, 0.3])
+        col2.image(Image.open("./temp/logo.png"), width=80)
+
+        st.markdown("#")
+        st.markdown("#")
+
         st.text_input("Username", on_change=password_entered, key="username")
         st.text_input(
             "Password", type="password", on_change=password_entered, key="password"
