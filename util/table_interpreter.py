@@ -98,7 +98,7 @@ def detect_lines(image, rho=1, theta=np.pi/180, threshold=50, minLinLength=290, 
 def interpret_covid_table(image_path, display=False, print_text=False, write=False):
     src = cv2.imread(image_path)
 
-    horizontal, vertical = detect_lines(src, display=True)
+    horizontal, vertical = detect_lines(src, display=display)
 
     gray = image_transform.get_grayscale(src)
     bw = image_transform.get_binary(gray)
@@ -134,7 +134,7 @@ def interpret_covid_table(image_path, display=False, print_text=False, write=Fal
 def interpret_patient_table(image_path, display=False):
     src = cv2.imread(image_path)
 
-    horizontal, vertical = detect_lines(src, display=True)
+    horizontal, vertical = detect_lines(src, display=display)
 
     gray = image_transform.get_grayscale(src)
     bw = image_transform.get_binary(gray)
