@@ -1,12 +1,15 @@
 # Problem
-When doctors have to enter patient notes into electronic health records repeatedly, it takes up valuable time that could be spent working with a patient and leads to physician burnout.
+1. When doctors have to enter patient notes into electronic health records repeatedly, it takes up valuable time that could be spent working with a patient and leads to physician burnout.
+2. When there is a medical emergency, families are often disconnected from their families as medical professionals work to help the patient.
 
 # Solution
-Family signs up with contact info and who they want to receive information about when doctor scans/look up patient info they get a prompt to notify family
+1. Automate these administrative tasks so that doctors can simply scan patient information and upload it digitally to a database.
+2. Create an app that allows families to be notified when their loved one is in a medical emergency
 
 # Development
 
 - `streamlit run main.py`
 
 ## About this program
-Our program uses Optical Character Recognition (OCR)
+
+Our program uses Optical Character Recognition (OCR) to recognize patient information in medical forms and vaccine cards.
