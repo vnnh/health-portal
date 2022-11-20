@@ -1,14 +1,17 @@
 import streamlit as st
+import doctor
+import patient
 
 
 def check_password():
     def password_entered():
         if (
-            st.session_state["username"] in st.secrets["passwords"]
+            st.session_state["username"] in st.secrets["users"]
             and st.session_state["password"]
-            == st.secrets["passwords"][st.session_state["username"]]
+            == st.secrets["users"][st.session_state["username"]]["password"]
         ):
             st.session_state["password_correct"] = True
+            st.session_state["type"] = st.secrets["users"][st.session_state["username"]]["type"]
             del st.session_state["password"]
             del st.session_state["username"]
         else:
@@ -33,5 +36,7 @@ def check_password():
 
 if __name__ == "__main__":
     if check_password():
-        #route
-        print("Hello world")
+        if st.session_state["type"] == "doctor":
+            doctor.app()
+        else:
+            patient.app()
